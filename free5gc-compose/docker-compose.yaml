@@ -261,7 +261,29 @@ services:
     depends_on:
       - db
       - free5gc-nrf
-
+ 
+  free5gc-n3iwf:
+    container_name: n3iwf
+    build:
+      context: ./nf_n3iwf
+      args:
+        DEBUG_TOOLS: "false"
+    command: sh -c "./n3iwf-ipsec.sh && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml"
+    volumes:
+      - ./config/n3iwfcfg.yaml:/free5gc/config/n3iwfcfg.yaml
+      - ./config/n3iwf-ipsec.sh:/free5gc/n3iwf/n3iwf-ipsec.sh
+    environment:
+      GIN_MODE: release
+    cap_add:
+      - NET_ADMIN
+    networks:
+      privnet:
+        aliases:
+          - n3iwf.free5gc.org
+    depends_on:
+      - free5gc-amf
+      - free5gc-smf
+      - free5gc-upf-2
 
   free5gc-webui:
     container_name: webui
@@ -403,7 +425,37 @@ services:
     depends_on:
       - gnb1
       - ue1
-          
+  non3gppue:
+    image: non3gppue:latest
+    container_name: wifiue
+    command: /go/src/my5G-core/bin/ue
+    cap_add:
+      - all
+    volumes: 
+      - ./config/pcap.sh:/pcap.sh
+      - ../../5-fi-packetdata:/pcapdata
+    privileged: true
+    environment:
+      PCAP_NAME: wifiue
+      GNB_HOSTNAME: ap
+      APN: internet
+      MSISDN: '0000000005'
+      KEY: '8baf473f2f8fd09487cccbd7097c6862'
+      OP_TYPE: OPC
+      OP: '8e27b6af0e692e750f32667a3b14605d'
+      MCC: '208'
+      MNC: '93'
+      SST: 0x01
+      SD: 0x010203
+    networks:
+      privnet:
+        aliases:
+          - wifiue
+        ipv4_address: 10.100.200.100
+    depends_on:
+      - gnb1
+      - ue2
+
 networks:
   privnet:
     ipam:
