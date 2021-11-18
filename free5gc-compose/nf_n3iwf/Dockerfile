@@ -13,6 +13,8 @@ RUN if [ "$DEBUG_TOOLS" = "true" ] ; then apk add -U vim strace net-tools curl n
 # Install N3IWF dependencies
 RUN apk add -U iproute2
 
+RUN apk add -U tcpdump
+
 # Set working dir
 WORKDIR /free5gc
 RUN mkdir -p config/ log/ support/TLS/ ${F5GC_MODULE}/

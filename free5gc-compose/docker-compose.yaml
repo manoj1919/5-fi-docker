@@ -268,10 +268,12 @@ services:
       context: ./nf_n3iwf
       args:
         DEBUG_TOOLS: "false"
-    command: sh -c "./n3iwf-ipsec.sh && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml"
+    command: sh -c "chmod +x pcap.sh && ./pcap.sh n3iwf & ./n3iwf-ipsec.sh && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml"
     volumes:
       - ./config/n3iwfcfg.yaml:/free5gc/config/n3iwfcfg.yaml
       - ./config/n3iwf-ipsec.sh:/free5gc/n3iwf/n3iwf-ipsec.sh
+      - ./config/pcap.sh:/free5gc/n3iwf/pcap.sh
+      - ../../5-fi-packetdata:/free5gc/pcapdata      
     environment:
       GIN_MODE: release
     cap_add:
@@ -279,7 +281,8 @@ services:
     networks:
       privnet:
         aliases:
-          - n3iwf.free5gc.org
+          - n3iwf.free5gc.org   
+        ipv4_address: 10.100.200.101               
     depends_on:
       - free5gc-amf
       - free5gc-smf
@@ -428,12 +431,13 @@ services:
   non3gppue:
     image: non3gppue:latest
     container_name: wifiue
-    command: /go/src/my5G-core/bin/ue
+    command: sh -c "chmod +x /pcap.sh && /pcap.sh non3gppue & /go/src/my5G-core/bin/ue"
     cap_add:
       - all
     volumes: 
       - ./config/pcap.sh:/pcap.sh
       - ../../5-fi-packetdata:/pcapdata
+      - ./config/trigger_registration.sh:/go/src/my5G-core/src/ue/trigger_registration.sh
     privileged: true
     environment:
       PCAP_NAME: wifiue
