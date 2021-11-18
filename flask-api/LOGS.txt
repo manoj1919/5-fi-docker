@@ -1,0 +1,12 @@
+ * Serving Flask app 'python_api' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Error in running Ping command
+No data exists in database table measurements
+No data exists in database table measurements
+No data exists in database table measurements
+No data exists in database table measurements
+No data exists in database table measurements
+Error in running Ping command
