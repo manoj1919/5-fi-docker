@@ -281,8 +281,7 @@ services:
     networks:
       privnet:
         aliases:
-          - n3iwf.free5gc.org   
-        ipv4_address: 10.100.200.101               
+          - n3iwf.free5gc.org           
     depends_on:
       - free5gc-amf
       - free5gc-smf
