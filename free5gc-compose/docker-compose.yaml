@@ -368,6 +368,7 @@ services:
       - free5gc-upf-2
       - free5gc-upf-3 
       - gnb1
+
   ue1:
     image: ueransim:3.2.2
     container_name: ue1
@@ -397,6 +398,7 @@ services:
           - ue
     depends_on:
       - gnb1
+
   ue2:
     image: ueransim:3.2.2
     container_name: ue2
@@ -427,15 +429,17 @@ services:
     depends_on:
       - gnb1
       - ue1
+
   non3gppue:
     image: non3gppue:latest
     container_name: wifiue
-    command: sh -c "chmod +x /pcap.sh && /pcap.sh non3gppue & /go/src/my5G-core/bin/ue"
+    command: sh -c "chmod +x /pcap.sh && /pcap.sh non3gppue & ./n3iwf-ipsec.sh && /go/src/my5G-core/bin/ue"
     cap_add:
       - all
     volumes: 
       - ./config/pcap.sh:/pcap.sh
       - ../../5-fi-packetdata:/pcapdata
+      - ./config/non3gpp-ipsec.sh:/non3gpp-ipsec.sh      
       - ./config/trigger_registration.sh:/go/src/my5G-core/src/ue/trigger_registration.sh
     privileged: true
     environment:
