@@ -340,6 +340,7 @@ services:
       - free5gc-upf-1
       - free5gc-upf-2
       - free5gc-upf-3
+      
   gnb2:
     image: ueransim:3.2.2
     container_name: gnb2
@@ -433,7 +434,7 @@ services:
   non3gppue:
     image: non3gppue:latest
     container_name: wifiue
-    command: sh -c "chmod +x /pcap.sh && /pcap.sh non3gppue & ./n3iwf-ipsec.sh && /go/src/my5G-core/bin/ue"
+    command: sh -c "chmod +x /pcap.sh /non3gpp-ipsec.sh && /pcap.sh non3gppue & /non3gpp-ipsec.sh && /go/src/my5G-core/bin/ue"
     cap_add:
       - all
     volumes: 
@@ -446,7 +447,7 @@ services:
       PCAP_NAME: wifiue
       GNB_HOSTNAME: ap
       APN: internet
-      MSISDN: '0000000005'
+      MSISDN: '0000007487'
       KEY: '8baf473f2f8fd09487cccbd7097c6862'
       OP_TYPE: OPC
       OP: '8e27b6af0e692e750f32667a3b14605d'

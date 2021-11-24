@@ -11,13 +11,13 @@ opc_type=${opc_type:-"OP"}
 opc=${opc:-"c9e8763286b5b9ffbdf56e1297d0887b"}
 ike_bind_addr=${ike_bind_addr:-"10.100.200.100"}
 
-while [ $# -gt 0 ]; do
-   if [[ $1 == *"--"* ]]; then
-        param="${1/--/}"
-        declare $param="$2"
-   fi
-  shift
-done
+#while [ $# -gt 0 ]; do
+#   if [[ $1 == *"--"* ]]; then
+#        param="${1/--/}"
+#        declare $param="$2"
+#   fi
+#  shift
+#done
 
 curl --insecure --location --request POST "$scheme://$ue_addr:$ue_port/registration/" \
 --header 'Content-Type: application/json' \
