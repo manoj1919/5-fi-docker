@@ -68,7 +68,10 @@ def if_table_exists(cursor,table_name):
         return True
 
 def get_IPaddressOfUE(client,id):
+    print(get_IPaddressOfUE)
+    print(id)
     container=client.containers.list(filters={"id":id})
+    print(container)
     if len(container)==0:
         print ("no container running with given id")
         return
