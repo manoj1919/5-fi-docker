@@ -83,6 +83,8 @@ def get_IPaddressOfUE(client,id):
             for subdicts in dicts['addr_info']: 
                 if  subdicts['label']=='uesimtun0':
                     return subdicts['local']
+        else:
+            return ""            
 
 def get_measurements(client):
     global stop
@@ -107,27 +109,28 @@ def write_measurements(client,container,cursor,ts):
     IPaddr = get_IPaddressOfUE(client,container.id)
     print(IPaddr)
     print(type(IPaddr))
-    str2 = 'speedtest-cli --source ' + IPaddr + ' --json --timeout 45'
-    gnb_name = get_gNB(client,container.name)
-    gnb_Container = client.containers.list(filters={"name":gnb_name.strip()})
-    if len(gnb_Container)==0:
-        print ("gNB container not found with given name")
-        return
-    try:
-        run=container.exec_run(['sh', '-c', str2])
-        temp1=(run.output.decode("utf-8"))
-        temp2=json.loads(temp1)
-        dl_thp = temp2['download'] # bits per second
-        ul_thp = temp2['upload']
-        latency = temp2['server']['latency']
-        tx_byte,rx_byte=get_TxRx_Bytes(client,container.name)
-    except Exception as e:
-        print ("Error in running speedtest "+str(e))
-    try:
-        cursor.execute("INSERT INTO measurements (ue_name,id,gnb_name,time_stamp,DL_Thp,UL_Thp,latency,Tx_Bytes,Rx_Bytes) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)", (container.name, container.id, gnb_Container[0].name, ts, dl_thp, ul_thp, latency,tx_byte,rx_byte) )
-    except :
-        print ("measurements insert not executing")
-    time.sleep(90)
+    if IPaddr != "":
+        str2 = 'speedtest-cli --source ' + IPaddr + ' --json --timeout 45'
+        gnb_name = get_gNB(client,container.name)
+        gnb_Container = client.containers.list(filters={"name":gnb_name.strip()})
+        if len(gnb_Container)==0:
+            print ("gNB container not found with given name")
+            return
+        try:
+            run=container.exec_run(['sh', '-c', str2])
+            temp1=(run.output.decode("utf-8"))
+            temp2=json.loads(temp1)
+            dl_thp = temp2['download'] # bits per second
+            ul_thp = temp2['upload']
+            latency = temp2['server']['latency']
+            tx_byte,rx_byte=get_TxRx_Bytes(client,container.name)
+        except Exception as e:
+            print ("Error in running speedtest "+str(e))
+        try:
+            cursor.execute("INSERT INTO measurements (ue_name,id,gnb_name,time_stamp,DL_Thp,UL_Thp,latency,Tx_Bytes,Rx_Bytes) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)", (container.name, container.id, gnb_Container[0].name, ts, dl_thp, ul_thp, latency,tx_byte,rx_byte) )
+        except :
+            print ("measurements insert not executing")
+        time.sleep(90)
 
 def get_gNB(client,name):
     container=client.containers.list(filters={"name":name})
