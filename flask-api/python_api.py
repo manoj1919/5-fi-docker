@@ -72,6 +72,15 @@ def docker_restart():
     #stop_loop()
     os.chdir(pwd)
     return jsonify({"response":"success"}), 200
+@app.route('/stop_demo')
+def docker_stop():
+    pwd=os.getcwd()
+    shutil.copy('../free5gc-compose/config/uerouting_orig.yaml','../free5gc-compose/config/uerouting.yaml')
+    os.chdir('../free5gc-compose')
+    os.system('docker-compose down')
+    #stop_loop()
+    os.chdir(pwd)
+    return jsonify({"response":"success"}), 200    
 ####################################################
 
 list_nfs=['nrf','amf','upf','gnb','ue','udm','udr','smf','ausf','nssf','pcf']    
@@ -562,4 +571,4 @@ if len(sys.argv) >2:
 
 #start flask app
 if __name__=='__main__':
-    app.run(host = '0.0.0.0',port=sys.argv[1])
+    app.run(host = '0.0.0.0', port=sys.argv[1])
