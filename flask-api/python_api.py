@@ -546,11 +546,11 @@ def pop_sug_action():
 
 # start a thread to dump packet data and stats data into db
 
-stats_thread=threading.Thread(target=stats.get_stats, args=(client,), name="docker_stats")
-stats_thread.start()
-handover_db.drop_db()
-measurements_thread=threading.Thread(target=measurements.get_measurements, args=(client,), name="docker_measurements")
-measurements_thread.start()
+#stats_thread=threading.Thread(target=stats.get_stats, args=(client,), name="docker_stats")
+#stats_thread.start()
+#handover_db.drop_db()
+#measurements_thread=threading.Thread(target=measurements.get_measurements, args=(client,), name="docker_measurements")
+#measurements_thread.start()
 
 if len(sys.argv) < 2:
     print("Provide port number properly")
