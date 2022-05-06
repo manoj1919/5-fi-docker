@@ -77,7 +77,7 @@ def docker_stop():
     pwd=os.getcwd()
     shutil.copy('../free5gc-compose/config/uerouting_orig.yaml','../free5gc-compose/config/uerouting.yaml')
     os.chdir('../free5gc-compose')
-    os.system('docker-compose down')
+    os.system('docker-compose down --remove-orphans')
     #stop_loop()
     os.chdir(pwd)
     return jsonify({"response":"success"}), 200    
@@ -555,11 +555,11 @@ def pop_sug_action():
 
 # start a thread to dump packet data and stats data into db
 
-#stats_thread=threading.Thread(target=stats.get_stats, args=(client,), name="docker_stats")
-#stats_thread.start()
-#handover_db.drop_db()
-#measurements_thread=threading.Thread(target=measurements.get_measurements, args=(client,), name="docker_measurements")
-#measurements_thread.start()
+stats_thread=threading.Thread(target=stats.get_stats, args=(client,), name="docker_stats")
+stats_thread.start()
+handover_db.drop_db()
+measurements_thread=threading.Thread(target=measurements.get_measurements, args=(client,), name="docker_measurements")
+measurements_thread.start()
 
 if len(sys.argv) < 2:
     print("Provide port number properly")
