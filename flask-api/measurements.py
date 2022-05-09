@@ -120,6 +120,7 @@ def write_measurements(client,container,cursor,ts):
             ul_thp = temp2['upload']
             latency = temp2['server']['latency']
             tx_byte,rx_byte=get_TxRx_Bytes(client,container.name)
+            print("Reached here")
         except Exception as e:
             print ("Error in running speedtest "+str(e))
         try:
