@@ -68,9 +68,7 @@ def if_table_exists(cursor,table_name):
         return True
 
 def get_IPaddressOfUE(client,id):
-    print(get_IPaddressOfUE)
     container=client.containers.list(filters={"id":id})
-    print(container[0].name)
     if len(container)==0:
         print ("no container running with given id")
         return
@@ -79,15 +77,10 @@ def get_IPaddressOfUE(client,id):
     ipjson=json.loads(ipraw)
     ip=""
     for dicts in ipjson:
-        print(dicts['ifname'])
         if dicts['ifname']=='uesimtun0':
-            print("IF 1")
             for subdicts in dicts['addr_info']: 
-                print("IF 2")
                 if subdicts['label']=='uesimtun0':
-                    print("IF 3")
                     ip=subdicts['local']
-    print(ip)
     return ip
 
 def get_measurements(client):
