@@ -77,17 +77,18 @@ def get_IPaddressOfUE(client,id):
     run=container[0].exec_run('ip -j a')
     ipraw=run.output.decode("utf-8")
     ipjson=json.loads(ipraw)
+    ip=""
     for dicts in ipjson:
         print(dicts['ifname'])
         if dicts['ifname']=='uesimtun0':
             print("IF 1")
             for subdicts in dicts['addr_info']: 
                 print("IF 2")
-                if  subdicts['label']=='uesimtun0':
+                if subdicts['label']=='uesimtun0':
                     print("IF 3")
-                    return subdicts['local']
-        else:
-            return ""            
+                    ip=subdicts['local']
+    print(ip)
+    return ip
 
 def get_measurements(client):
     global stop
