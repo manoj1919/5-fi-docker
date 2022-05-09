@@ -75,9 +75,10 @@ def get_IPaddressOfUE(client,id):
         print ("no container running with given id")
         return
     run=container[0].exec_run('ip -j a')
-    ipraw= run.output.decode("utf-8")
+    ipraw=run.output.decode("utf-8")
     ipjson=json.loads(ipraw)
     for dicts in ipjson:
+        print(dicts['ifname'])
         if dicts['ifname']=='uesimtun0':
             print("IF 1")
             for subdicts in dicts['addr_info']: 
