@@ -68,16 +68,16 @@ def if_table_exists(cursor,table_name):
         return True
 
 def get_IPaddressOfUE(client,id):
-    #print(get_IPaddressOfUE)
-    #print(id)
+    print(get_IPaddressOfUE)
     container=client.containers.list(filters={"id":id})
-    #print(container)
+    print(container.name)
     if len(container)==0:
         print ("no container running with given id")
         return
     run=container[0].exec_run('ip -j a')
     ipraw= run.output.decode("utf-8")
     ipjson=json.loads(ipraw)
+    print(ipjson)
     for dicts in ipjson:
         if dicts['ifname']=='uesimtun0':
             for subdicts in dicts['addr_info']: 
