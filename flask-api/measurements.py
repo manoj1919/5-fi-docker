@@ -105,7 +105,6 @@ def get_measurements(client):
 def write_measurements(client,container,cursor,ts):
     IPaddr = get_IPaddressOfUE(client,container.id)
     print(IPaddr)
-    print(type(IPaddr))
     if IPaddr != "":
         str2 = 'speedtest-cli --source ' + IPaddr + ' --json --timeout 45'
         gnb_name = get_gNB(client,container.name)
