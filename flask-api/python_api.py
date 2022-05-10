@@ -104,7 +104,12 @@ def monitor_home():
         NF_details["containerid"]=container.id
         NF_details["shortid"]=container.short_id
         NF_details["count"] =len(client.containers.list(filters={'name':NF_details['type']+'.*'}))
-        NF_details["internet"] = 'yes'
+        if "branching" in str(container.name):
+            NF_details["internet"] = 'BU'
+        if "anchor-upf1" in str(container.name):
+            NF_details["internet"] = 'yes'    
+        if "anchor-upf2" in str(container.name):
+            NF_details["internet"] = 'no'                        
         monitor_home_page["List_NFs"].append(NF_details)
         if "free5gc" in str(container.image):
             counts_details["nfs"]+=1
@@ -121,7 +126,7 @@ def monitor_home():
     counts_details["gnbs"]= len(client.containers.list(filters={'name':'gnb.*'}))
     counts_details["rrhs"]= len(client.containers.list(filters={'name':'gnb.*'}))
     counts_details["ues"]= len(client.containers.list(filters={'name':'ue.*'}))
-    counts_details["edges"]= 0
+    counts_details["edges"]= 1
     monitor_home_page["counts_in_topo"]=counts_details
     monitor_home_page["count_active_cells"]=counts_details["gnbs"]
     monitor_home_page["count_available_cells"]=counts_details['gnbs']
