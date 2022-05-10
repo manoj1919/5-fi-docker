@@ -163,7 +163,6 @@ def monitor_nf(id):
     "Handover-prepare_button":'False',
     "Path_sw_req_button":'False',
     "DNN":'internet',
-    "Internet":'',
     "NF_stats":{"chart1":chart_dict},
     "NF_Logs":'',
     "NF_packets":''}
