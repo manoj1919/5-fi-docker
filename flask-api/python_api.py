@@ -103,7 +103,13 @@ def monitor_home():
         NF_details["type"] = match#remove_numbers(container.name)
         NF_details["containerid"]=container.id
         NF_details["shortid"]=container.short_id
-        NF_details["count"] =len(client.containers.list(filters={'name':NF_details['type']+'.*'}))                      
+        NF_details["count"] =len(client.containers.list(filters={'name':NF_details['type']+'.*'}))  
+        if "branching" in str(container.name):
+            NF_details["Internet"] = 'BU'
+        if "anchor-upf1" in str(container.name):
+            NF_details["Internet"] = 'yes'    
+        if "anchor-upf2" in str(container.name):
+            NF_details["Internet"] = 'no'                                
         monitor_home_page["List_NFs"].append(NF_details)
         if "free5gc" in str(container.image):
             counts_details["nfs"]+=1
@@ -175,13 +181,7 @@ def monitor_nf(id):
     no_ActiveUEs=0
     monitor_nf["name_of_nf"]=container[0].name
     if 'upf' in container[0].name:
-        DNN = 'internet'
-    if "branching" in str(container[0].name):
-        monitor_nf["Internet"] = 'BU'
-    if "anchor-upf1" in str(container[0].name):
-        monitor_nf["Internet"] = 'yes'    
-    if "anchor-upf2" in str(container[0].name):
-        monitor_nf["Internet"] = 'no'          
+        DNN = 'internet'      
     #if 'ue' in container[0].name:
         #no_PDUsessions = num_PDUsessions(client,container[0].id)
     if 'gnb' in container[0].name:
