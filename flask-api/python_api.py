@@ -105,11 +105,11 @@ def monitor_home():
         NF_details["shortid"]=container.short_id
         NF_details["count"] =len(client.containers.list(filters={'name':NF_details['type']+'.*'}))  
         if "branching" in str(container.name):
-            NF_details["Internet"] = 'BU'
+            NF_details["internet"] = 'BU'
         if "anchor-upf1" in str(container.name):
-            NF_details["Internet"] = 'yes'    
+            NF_details["internet"] = 'yes'    
         if "anchor-upf2" in str(container.name):
-            NF_details["Internet"] = 'no'                                
+            NF_details["internet"] = 'no'                                
         monitor_home_page["List_NFs"].append(NF_details)
         if "free5gc" in str(container.image):
             counts_details["nfs"]+=1
