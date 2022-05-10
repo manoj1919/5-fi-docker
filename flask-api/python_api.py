@@ -103,13 +103,7 @@ def monitor_home():
         NF_details["type"] = match#remove_numbers(container.name)
         NF_details["containerid"]=container.id
         NF_details["shortid"]=container.short_id
-        NF_details["count"] =len(client.containers.list(filters={'name':NF_details['type']+'.*'}))
-        if "branching" in str(container.name):
-            NF_details["internet"] = 'BU'
-        if "anchor-upf1" in str(container.name):
-            NF_details["internet"] = 'yes'    
-        if "anchor-upf2" in str(container.name):
-            NF_details["internet"] = 'no'                        
+        NF_details["count"] =len(client.containers.list(filters={'name':NF_details['type']+'.*'}))                      
         monitor_home_page["List_NFs"].append(NF_details)
         if "free5gc" in str(container.image):
             counts_details["nfs"]+=1
@@ -163,6 +157,7 @@ def monitor_nf(id):
     "Handover-prepare_button":'False',
     "Path_sw_req_button":'False',
     "DNN":'internet',
+    "Internet":'',
     "NF_stats":{"chart1":chart_dict},
     "NF_Logs":'',
     "NF_packets":''}
@@ -181,6 +176,12 @@ def monitor_nf(id):
     monitor_nf["name_of_nf"]=container[0].name
     if 'upf' in container[0].name:
         DNN = 'internet'
+    if "branching" in str(container.name):
+        monitor_nf["Internet"] = 'BU'
+    if "anchor-upf1" in str(container.name):
+        monitor_nf["Internet"] = 'yes'    
+    if "anchor-upf2" in str(container.name):
+        monitor_nf["Internet"] = 'no'          
     #if 'ue' in container[0].name:
         #no_PDUsessions = num_PDUsessions(client,container[0].id)
     if 'gnb' in container[0].name:
