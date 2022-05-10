@@ -176,11 +176,11 @@ def monitor_nf(id):
     monitor_nf["name_of_nf"]=container[0].name
     if 'upf' in container[0].name:
         DNN = 'internet'
-    if "branching" in str(container.name):
+    if "branching" in str(container[0].name):
         monitor_nf["Internet"] = 'BU'
-    if "anchor-upf1" in str(container.name):
+    if "anchor-upf1" in str(container[0].name):
         monitor_nf["Internet"] = 'yes'    
-    if "anchor-upf2" in str(container.name):
+    if "anchor-upf2" in str(container[0].name):
         monitor_nf["Internet"] = 'no'          
     #if 'ue' in container[0].name:
         #no_PDUsessions = num_PDUsessions(client,container[0].id)
