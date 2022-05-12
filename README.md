@@ -19,7 +19,7 @@ flask (pip3 install flask)
 go to flask-api folder and run python_api.py like below
 
 `cd flask-api`
-`python3 python_api.py <port number>`
+`sudo python3 python_api.py <port number>`
 
 The following are the url calls you can make:
  
